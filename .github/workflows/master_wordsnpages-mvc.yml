@@ -53,5 +53,5 @@ jobs:
         with:
           app-name: 'wordsnpages-mvc'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_41996143815540A3A7ED09721C17508A }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_CA5333840E8E431EAF74C31DDBF95E26 }}
           package: .
