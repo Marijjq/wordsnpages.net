@@ -17,7 +17,10 @@ namespace wordsnpages.Models
 
         [ForeignKey("CompanyId")]
         [ValidateNever]
-        public Company Company { get; set; }
+        public Company? Company { get; set; }
+
+        [NotMapped] //won't be in the database
+        public string Role {  get; set; }
 
 
 

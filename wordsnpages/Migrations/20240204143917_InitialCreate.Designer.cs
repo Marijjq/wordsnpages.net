@@ -12,8 +12,8 @@ using wordsnpages;
 namespace wordsnpages.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240121222802_addShoppingCartToDb")]
-    partial class addShoppingCartToDb
+    [Migration("20240204143917_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -258,6 +258,24 @@ namespace wordsnpages.Migrations
                             Id = 1,
                             DisplayOrder = 1,
                             Name = "Action"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            DisplayOrder = 2,
+                            Name = "Thriller"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            DisplayOrder = 3,
+                            Name = "Romance"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            DisplayOrder = 4,
+                            Name = "Mystery"
                         });
                 });
 
@@ -303,6 +321,111 @@ namespace wordsnpages.Migrations
                             State = "IL",
                             StreetAddress = "123 Main St"
                         });
+                });
+
+            modelBuilder.Entity("wordsnpages.Models.OrderDetail", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("Count")
+                        .HasColumnType("int");
+
+                    b.Property<int>("OrderHeaderId")
+                        .HasColumnType("int");
+
+                    b.Property<double>("Price")
+                        .HasColumnType("float");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrderHeaderId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("OrderDetails");
+                });
+
+            modelBuilder.Entity("wordsnpages.Models.OrderHeader", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ApplicationUserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Carrier")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("City")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("OrderDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("OrderStatus")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("OrderTotal")
+                        .HasColumnType("float");
+
+                    b.Property<DateTime>("PaymentDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateOnly>("PaymentDueDate")
+                        .HasColumnType("date");
+
+                    b.Property<string>("PaymentIntentId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PaymentStatus")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PostalCode")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SessionId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("ShippingDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("State")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("StreetAddress")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TrackingNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ApplicationUserId");
+
+                    b.ToTable("OrderHeaders");
                 });
 
             modelBuilder.Entity("wordsnpages.Models.Product", b =>
@@ -358,86 +481,100 @@ namespace wordsnpages.Migrations
                         new
                         {
                             Id = 1,
-                            Author = "Billy Spark",
-                            CategoryId = 1,
-                            Description = "Praesent vitae sodales libero. Praesent molestie orci augue, vitae euismod velit sollicitudin ac. Praesent vestibulum facilisis nibh ut ultricies.\r\n\r\nNunc malesuada viverra ipsum sit amet tincidunt. ",
+                            Author = "Sebastian Fitzek",
+                            CategoryId = 2,
+                            Description = "It's irrational.\r\n\r\nYou know that, you’ve checked the statistics. Flying is safer than driving — nineteen times safer.\r\n\r\nYou also know that should something happen, seat 7A, according to the numbers, is the worst place to be sitting.\r\n\r\nBut here you are, in seat 7A, buckled up for take off, unable to shake off the feeling of dread, the feeling that something is about to go very wrong.\r\n\r\nIrrational, perhaps.\r\n\r\nBut you're not wrong.\r\n ",
                             ISBN = "SWD9999001",
                             ImageURL = "",
                             ListPrice = 99.0,
                             Price = 90.0,
                             Price100 = 80.0,
                             Price50 = 85.0,
-                            Title = "Fortune of Time"
+                            Title = "Seat 7a\r\n\r\n"
                         },
                         new
                         {
                             Id = 2,
-                            Author = "Nancy Hoover",
-                            CategoryId = 1,
-                            Description = "Praesent vitae sodales libero. Praesent molestie orci augue, vitae euismod velit sollicitudin ac. Praesent vestibulum facilisis nibh ut ultricies.\r\n\r\nNunc malesuada viverra ipsum sit amet tincidunt. ",
+                            Author = "Michael Louis Calvillo",
+                            CategoryId = 2,
+                            Description = "Four young siblings. An ancient evil that has been waiting billions of years for its opportunity to reign over the earth. Oscar, Esteban, Manny and Isabel are as different as brothers and sisters can be. They argue, and the brothers even fight, but their unquestioned love for each other is about to be tested in unimaginable ways. The Birdbox has finally been opened after many centuries. Can they work together to overcome the darkness housed in The Birdbox in time to save themselves and their family? In time to save humanity itself?\r\n",
                             ISBN = "CAW777777701",
                             ImageURL = "",
                             ListPrice = 40.0,
                             Price = 30.0,
                             Price100 = 20.0,
                             Price50 = 25.0,
-                            Title = "Dark Skies"
+                            Title = "BirdBox"
                         },
                         new
                         {
                             Id = 3,
-                            Author = "Julian Button",
+                            Author = "Suzanne Collins\r\n",
                             CategoryId = 1,
-                            Description = "Praesent vitae sodales libero. Praesent molestie orci augue, vitae euismod velit sollicitudin ac. Praesent vestibulum facilisis nibh ut ultricies.\r\n\r\nNunc malesuada viverra ipsum sit amet tincidunt. ",
+                            Description = "Could you survive on your own in the wild, with every one out to make sure you don't live to see the morning?\r\n\r\nIn the ruins of a place once known as North America lies the nation of Panem, a shining Capitol surrounded by twelve outlying districts. The Capitol is harsh and cruel and keeps the districts in line by forcing them all to send one boy and one girl between the ages of twelve and eighteen to participate in the annual Hunger Games, a fight to the death on live TV.\r\n\r\nSixteen-year-old Katniss Everdeen, who lives alone with her mother and younger sister, regards it as a death sentence when she steps forward to take her sister's place in the Games. But Katniss has been close to dead before—and survival, for her, is second nature. Without really meaning to, she becomes a contender. But if she is to win, she will have to start making choices that weight survival against humanity and life against love.\r\n",
                             ISBN = "RITO5555501",
                             ImageURL = "",
                             ListPrice = 55.0,
                             Price = 50.0,
                             Price100 = 35.0,
                             Price50 = 40.0,
-                            Title = "Vanish in the Sunset"
+                            Title = "The Hunger Games\r\n\r\n"
                         },
                         new
                         {
                             Id = 4,
-                            Author = "Abby Muscles",
-                            CategoryId = 1,
-                            Description = "Praesent vitae sodales libero. Praesent molestie orci augue, vitae euismod velit sollicitudin ac. Praesent vestibulum facilisis nibh ut ultricies.\r\n\r\nNunc malesuada viverra ipsum sit amet tincidunt. ",
+                            Author = "Colleen Hoover",
+                            CategoryId = 3,
+                            Description = "Sometimes it is the one who loves you who hurts you the most.\r\n\r\nLily hasn’t always had it easy, but that’s never stopped her from working hard for the life she wants. She’s come a long way from the small town in Maine where she grew up — she graduated from college, moved to Boston, and started her own business. So when she feels a spark with a gorgeous neurosurgeon named Ryle Kincaid, everything in Lily’s life suddenly seems almost too good to be true.\r\n\r\nRyle is assertive, stubborn, maybe even a little arrogant. He’s also sensitive, brilliant, and has a total soft spot for Lily. And the way he looks in scrubs certainly doesn’t hurt. Lily can’t get him out of her head. But Ryle’s complete aversion to relationships is disturbing. Even as Lily finds herself becoming the exception to his “no dating” rule, she can’t help but wonder what made him that way in the first place.\r\n\r\nAs questions about her new relationship overwhelm her, so do thoughts of Atlas Corrigan — her first love and a link to the past she left behind. He was her kindred spirit, her protector. When Atlas suddenly reappears, everything Lily has built with Ryle is threatened.\r\n",
                             ISBN = "WS3333333301",
                             ImageURL = "",
                             ListPrice = 70.0,
                             Price = 65.0,
                             Price100 = 55.0,
                             Price50 = 60.0,
-                            Title = "Cotton Candy"
+                            Title = "It Ends with Us\r\n\r\n"
                         },
                         new
                         {
                             Id = 5,
-                            Author = "Ron Parker",
-                            CategoryId = 1,
-                            Description = "Praesent vitae sodales libero. Praesent molestie orci augue, vitae euismod velit sollicitudin ac. Praesent vestibulum facilisis nibh ut ultricies.\r\n\r\nNunc malesuada viverra ipsum sit amet tincidunt. ",
+                            Author = "Colleen Hoover",
+                            CategoryId = 3,
+                            Description = " Before It Ends with Us, it started with Atlas. Colleen Hoover tells fan favorite Atlas’s side of the story and shares what comes next in this long-anticipated sequel to the “glorious and touching” (USA TODAY) #1 New York Times bestseller It Ends with Us.\r\n\r\nLily and her ex-husband, Ryle, have just settled into a civil coparenting rhythm when she suddenly bumps into her first love, Atlas, again. After nearly two years separated, she is elated that for once, time is on their side, and she immediately says yes when Atlas asks her on a date.\r\n\r\nBut her excitement is quickly hampered by the knowledge that, though they are no longer married, Ryle is still very much a part of her life—and Atlas Corrigan is the one man he will hate being in his ex-wife and daughter’s life.\r\n\r\nSwitching between the perspectives of Lily and Atlas, It Starts with Us picks up right where the epilogue for the “gripping, pulse-pounding” (Sarah Pekkanen, author of Perfect Neighbors) bestselling phenomenon It Ends with Us left off. Revealing more about Atlas’s past and following Lily as she embraces a second chance at true love while navigating a jealous ex-husband, it proves that “no one delivers an emotional read like Colleen Hoover” (Anna Todd, New York Times bestselling author).\r\n ",
                             ISBN = "SOTJ1111111101",
                             ImageURL = "",
                             ListPrice = 30.0,
                             Price = 27.0,
                             Price100 = 20.0,
                             Price50 = 25.0,
-                            Title = "Rock in the Ocean"
+                            Title = "It Starts With Us"
                         },
                         new
                         {
                             Id = 6,
-                            Author = "Laura Phantom",
-                            CategoryId = 1,
-                            Description = "Praesent vitae sodales libero. Praesent molestie orci augue, vitae euismod velit sollicitudin ac. Praesent vestibulum facilisis nibh ut ultricies.\r\n\r\nNunc malesuada viverra ipsum sit amet tincidunt. ",
+                            Author = "Cate Quinn",
+                            CategoryId = 4,
+                            Description = " From the critically acclaimed author of Black Widows comes a thriller set in a remote rehab clinic on the Pacific Northwest coast, in which the death of a woman inside prompts her sister to enter the clinic as a patient in order to find the truth. Perfect for fans of Stacy Willingham and Tarryn Fisher!\r\n\r\nMeg works for a casino in LA, catching cheaters and popping a few too many pain pills to cope, following a far different path than her sister Haley, a famous actress. But suddenly reports surface of Haley dying at the remote rehab facility where she had been forced to go to get her addictions under control.\r\n\r\nThere are whispers of suicide, but Meg can't believe it. She decides that the best way to find out what happened to her sister is to check in herself – to investigate what really happened from the inside.\r\n\r\nBattling her own addictions and figuring out the truth will be much more difficult than she imagined, far away from friends, family – and anyone who could help her.\r\n ",
                             ISBN = "FOT000000001",
                             ImageURL = "",
                             ListPrice = 25.0,
                             Price = 23.0,
                             Price100 = 20.0,
                             Price50 = 22.0,
-                            Title = "Leaves and Wonders"
+                            Title = "The Clinic\r\n\r\n"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Author = "Cate Quinn",
+                            CategoryId = 4,
+                            Description = " From the critically acclaimed author of Black Widows comes a thriller set in a remote rehab clinic on the Pacific Northwest coast, in which the death of a woman inside prompts her sister to enter the clinic as a patient in order to find the truth. Perfect for fans of Stacy Willingham and Tarryn Fisher!\r\n\r\nMeg works for a casino in LA, catching cheaters and popping a few too many pain pills to cope, following a far different path than her sister Haley, a famous actress. But suddenly reports surface of Haley dying at the remote rehab facility where she had been forced to go to get her addictions under control.\r\n\r\nThere are whispers of suicide, but Meg can't believe it. She decides that the best way to find out what happened to her sister is to check in herself – to investigate what really happened from the inside.\r\n\r\nBattling her own addictions and figuring out the truth will be much more difficult than she imagined, far away from friends, family – and anyone who could help her.\r\n ",
+                            ISBN = "FOT000000001",
+                            ImageURL = "",
+                            ListPrice = 25.0,
+                            Price = 23.0,
+                            Price100 = 20.0,
+                            Price50 = 22.0,
+                            Title = "The Clinic\r\n\r\n"
                         });
                 });
 
@@ -545,6 +682,36 @@ namespace wordsnpages.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("wordsnpages.Models.OrderDetail", b =>
+                {
+                    b.HasOne("wordsnpages.Models.OrderHeader", "OrderHeader")
+                        .WithMany()
+                        .HasForeignKey("OrderHeaderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("wordsnpages.Models.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("OrderHeader");
+
+                    b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("wordsnpages.Models.OrderHeader", b =>
+                {
+                    b.HasOne("wordsnpages.Models.ApplicationUser", "ApplicationUser")
+                        .WithMany()
+                        .HasForeignKey("ApplicationUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ApplicationUser");
                 });
 
             modelBuilder.Entity("wordsnpages.Models.Product", b =>
