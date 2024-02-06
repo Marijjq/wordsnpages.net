@@ -129,15 +129,16 @@ namespace wordsnpages.Controllers
             {
                 // It is a regular customer and we need to capture payment
                 // Stripe logic
-                var domain = Request.Scheme+ "://"+Request.Host.Value +"/";
+                var domain = $"{Request.Scheme}://{Request.Host.Value.TrimEnd('/')}";
                 var options = new SessionCreateOptions
                 {
-                    SuccessUrl=domain+$"/cart/OrderConfirmation?id={ShoppingCartVM.OrderHeader.Id}",
-                    CancelUrl=domain+"/cart/Index",
+                    SuccessUrl = $"{domain}/cart/OrderConfirmation?id={ShoppingCartVM.OrderHeader.Id}",
+                    CancelUrl = $"{domain}/cart/Index",
                     LineItems = new List<SessionLineItemOptions>(),
                     Mode = "payment",
                 };
-                foreach(var item in ShoppingCartVM.ShoppingCartList)
+
+                foreach (var item in ShoppingCartVM.ShoppingCartList)
                 {
                     var sessionLineItem = new SessionLineItemOptions
                     {
