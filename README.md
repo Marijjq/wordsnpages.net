@@ -63,3 +63,4 @@ Make changes and submit a pull request.
 License
 This project is licensed under the MIT License.
 
+Images in this project are nullable, they can only be uploaded in web, you can find them in wwwroot/images/product
