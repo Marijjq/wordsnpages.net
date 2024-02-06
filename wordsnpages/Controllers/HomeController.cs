@@ -20,20 +20,49 @@ namespace wordsnpages.Controllers
             _unitOfWork = unitOfWork;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(string categoryId)
         {
             var claimsIdentity = (ClaimsIdentity)User.Identity;
             var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
 
-            if(claim != null)
+            if (claim != null)
             {
                 HttpContext.Session.SetInt32(SD.SessionCart,
-            _unitOfWork.ShoppingCart.GetAll(u => u.ApplicationUserId == claim.Value).Count());
-
+                    _unitOfWork.ShoppingCart.GetAll(u => u.ApplicationUserId == claim.Value).Count());
             }
-            IEnumerable<Product> productList = _unitOfWork.Product.GetAll();
+
+            IEnumerable<Product> productList = _unitOfWork.Product.GetAll(includeProperties: "Category");
+
+            // Check if categoryId is provided and is a valid value
+            if (!string.IsNullOrEmpty(categoryId))
+            {
+                switch (categoryId.ToLower())
+                {
+                    case "action":
+                        productList = productList.Where(u => u.CategoryId == 1);
+                        break;
+                    case "thriller":
+                        productList = productList.Where(u => u.CategoryId == 2);
+                        break;
+                    case "romance":
+                        productList = productList.Where(u => u.CategoryId == 3);
+                        break;
+                    case "mystery":
+                        productList = productList.Where(u => u.CategoryId == 4);
+                        break;
+                    case "fantasy":
+                        productList = productList.Where(u => u.CategoryId == 5);
+                        break;
+                    // Add more cases for additional categories
+                    default:
+                        // Handle default case if needed
+                        break;
+                }
+            }
+
             return View(productList);
         }
+
         public IActionResult Details(int productId)
         {
             ShoppingCart cart = new ShoppingCart()
@@ -72,8 +101,8 @@ namespace wordsnpages.Controllers
                 _unitOfWork.ShoppingCart.Add(shoppingCart);
                 _unitOfWork.Save();
                 //number of items that the user has
-                HttpContext.Session.SetInt32(SD.SessionCart, 
-                    _unitOfWork.ShoppingCart.GetAll(u =>u.ApplicationUserId == userId).Count());
+                HttpContext.Session.SetInt32(SD.SessionCart,
+                    _unitOfWork.ShoppingCart.GetAll(u => u.ApplicationUserId == userId).Count());
             }
 
             return RedirectToAction(nameof(Index));

@@ -1,6 +1,65 @@
 ﻿@model IEnumerable<Product>
+@{
+    var categoryId = Context.Request.Query["categoryId"];
+    var action = "text-secondary"; 
+    var thriller = "text-primary"; 
+    var romance = "text-primary";
+    var mystery = "text-primary"; 
+    var fantasy = "text-primary"; 
 
+    switch (categoryId)
+    {
+        case "inprocess":
+            action = "active text-white bg-primary";
+            break;
+        case "pending":
+            thriller = "active text-white bg-primary";
+            break;
+        case "completed":
+            romance = "active text-white bg-primary";
+            break;
+        case "approved":
+            mystery = "active text-white bg-primary";
+            break;
+        case "all":
+            fantasy = "active text-white bg-primary";
+            break;
+        default:
+            break;
+    }
+}
+
+<div class="card-header bg-outline-secondary bg-gradient nl-0 py-3">
+<div class="row">
+    <div class="col-12 text-center">
+            <h2 class="text-secondary py-2"><i>WELCOME to our bookstore</i></h2>
+            <img src="/images/logo.png" style="width:300px" />
+        </div>
+</div>
+    </div>
+<div class="card-body p-4">
+    <div class="d-flex justify-content-between pb-5 pt-2">
+        <span> </span>
+        <ul class="list-group list-group-horizontal-sm">
+            <a style="text-decoration:none;" asp-controller="Home" asp-action="Index" asp-route-categoryId="action">
+            <li class="list-group-item ">Action</li>
+            </a>
+            <a style="text-decoration:none;" asp-controller="Home" asp-action="Index" asp-route-categoryId="thriller">
+            <li class="list-group-item  ">Thriller</li>
+            </a>
+            <a style="text-decoration:none;" asp-controller="Home" asp-action="Index" asp-route-categoryId="romance">
+            <li class="list-group-item  ">Romance</li>
+            </a>
+            <a style="text-decoration:none;" asp-controller="Home" asp-action="Index" asp-route-categoryId="mystery">
+            <li class="list-group-item  ">Mystery</li>
+            </a>
+            <a style="text-decoration:none;" asp-controller="Home" asp-action="Index" asp-route-categoryId="fantasy">
+            <li class="list-group-item  ">Fantasy</li>
+            </a>
+        </ul>
+    </div>
 <div class="row pb-3">
+
     @foreach (var product in Model)
     {
         <div class="col-lg-3 col-sm-6">
