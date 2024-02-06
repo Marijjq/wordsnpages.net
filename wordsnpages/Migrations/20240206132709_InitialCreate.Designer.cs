@@ -12,7 +12,7 @@ using wordsnpages;
 namespace wordsnpages.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240204143917_InitialCreate")]
+    [Migration("20240206132709_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />

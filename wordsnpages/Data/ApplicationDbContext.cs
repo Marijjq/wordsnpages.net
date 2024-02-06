@@ -30,7 +30,9 @@ namespace wordsnpages
                 new Category { Id=1, Name="Action", DisplayOrder=1 },
                  new Category { Id=2, Name="Thriller", DisplayOrder=2 },
                   new Category { Id=3, Name="Romance", DisplayOrder=3 },
-                   new Category { Id=4, Name="Mystery", DisplayOrder=4 }
+                   new Category { Id=4, Name="Mystery", DisplayOrder=4 },
+                    new Category { Id=5, Name="Fantasy", DisplayOrder=5 }
+
                 );
             modelBuilder.Entity<Product>().HasData(
                 new Product
@@ -45,22 +47,22 @@ namespace wordsnpages
                     Price50=85,
                     Price100=80,
                     CategoryId =2,
-                    ImageURL=""
+                    ImageURL = "/images/product/seat71.jpg"
 
                 },
                 new Product
                 {
                     Id = 2,
-                    Title = "BirdBox",
-                    Author = "Michael Louis Calvillo",
-                    Description = "Four young siblings. An ancient evil that has been waiting billions of years for its opportunity to reign over the earth. Oscar, Esteban, Manny and Isabel are as different as brothers and sisters can be. They argue, and the brothers even fight, but their unquestioned love for each other is about to be tested in unimaginable ways. The Birdbox has finally been opened after many centuries. Can they work together to overcome the darkness housed in The Birdbox in time to save themselves and their family? In time to save humanity itself?\r\n",
+                    Title = "The Gods of Jade and Shadow",
+                    Author = "Silvia Moreno-Garcia",
+                    Description = "The Mayan god of death sends a young woman on a harrowing, life-changing journey in this one-of-a-kind fairy tale inspired by Mexican folklore.\r\n\r\nThe Jazz Age is in full swing, but Casiopea Tun is too busy cleaning the floors of her wealthy grandfather’s house to listen to any fast tunes. Nevertheless, she dreams of a life far from her dusty small town in southern Mexico. A life she can call her own.\r\n\r\nYet this new life seems as distant as the stars, until the day she finds a curious wooden box in her grandfather’s room. She opens it—and accidentally frees the spirit of the Mayan god of death, who requests her help in recovering his throne from his treacherous brother. Failure will mean Casiopea’s demise, but success could make her dreams come true.\r\n\r\nIn the company of the strangely alluring god and armed with her wits, Casiopea begins an adventure that will take her on a cross-country odyssey from the jungles of Yucatán to the bright lights of Mexico City—and deep into the darkness of the Mayan underworld.\r\n",
                     ISBN = "CAW777777701",
                     ListPrice = 40,
                     Price = 30,
                     Price50 = 25,
                     Price100 = 20,
-                    CategoryId =2,
-                    ImageURL=""
+                    CategoryId =4,
+                    ImageURL="/images/product/godsofjadeandshadow.jpg"
                 },
                 new Product
                 {
@@ -74,7 +76,7 @@ namespace wordsnpages
                     Price50 = 40,
                     Price100 = 35,
                     CategoryId =1,
-                    ImageURL=""
+                    ImageURL="/images/product/51901147.jpg"
                 },
                 new Product
                 {
@@ -88,7 +90,7 @@ namespace wordsnpages
                     Price50 = 60,
                     Price100 = 55,
                     CategoryId =3,
-                    ImageURL=""
+                    ImageURL="/images/product/itendswithus.jpg"
                 },
                 new Product
                 {
@@ -102,7 +104,7 @@ namespace wordsnpages
                     Price50 = 25,
                     Price100 = 20,
                     CategoryId =3,
-                    ImageURL=""
+                    ImageURL="/images/product/itstartswithus.jpg"
                 },
                 new Product
                 {
@@ -116,24 +118,10 @@ namespace wordsnpages
                     Price50 = 22,
                     Price100 = 20,
                     CategoryId=4,
-                    ImageURL=""
+                    ImageURL="/images/product/123430921.jpg"
 
-                },
-                 new Product
-                 {
-                     Id = 7,
-                     Title = "The Clinic\r\n\r\n",
-                     Author = "Cate Quinn",
-                     Description = " From the critically acclaimed author of Black Widows comes a thriller set in a remote rehab clinic on the Pacific Northwest coast, in which the death of a woman inside prompts her sister to enter the clinic as a patient in order to find the truth. Perfect for fans of Stacy Willingham and Tarryn Fisher!\r\n\r\nMeg works for a casino in LA, catching cheaters and popping a few too many pain pills to cope, following a far different path than her sister Haley, a famous actress. But suddenly reports surface of Haley dying at the remote rehab facility where she had been forced to go to get her addictions under control.\r\n\r\nThere are whispers of suicide, but Meg can't believe it. She decides that the best way to find out what happened to her sister is to check in herself – to investigate what really happened from the inside.\r\n\r\nBattling her own addictions and figuring out the truth will be much more difficult than she imagined, far away from friends, family – and anyone who could help her.\r\n ",
-                     ISBN = "FOT000000001",
-                     ListPrice = 25,
-                     Price = 23,
-                     Price50 = 22,
-                     Price100 = 20,
-                     CategoryId=4,
-                     ImageURL=""
-
-                 }
+                }
+               
                 );
             modelBuilder.Entity<Company>().HasData(
                 new Company { Id=1, Name="Tech Solution", StreetAddress="123 Main St", City="Main", PostalCode="12121", State="IL", PhoneNumber="123456789" }

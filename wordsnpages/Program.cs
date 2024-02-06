@@ -70,6 +70,7 @@ app.UseAuthorization();
 app.UseSession();
 SeedDatabase(); //invoke database initializer
 app.MapRazorPages();//routing that maps razor pages
+app.UseStaticFiles();
 
 app.MapControllerRoute(
     name: "default",
