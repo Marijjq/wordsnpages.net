@@ -28,6 +28,7 @@ namespace wordsnpages.Controllers
             var claimsIdentity = (ClaimsIdentity)User.Identity;
             var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
 
+            //retrieves the current user shopping cart items
             ShoppingCartVM =  new()
             {
                 ShoppingCartList = _unitOfWork.ShoppingCart.GetAll(u => u.ApplicationUserId==userId,

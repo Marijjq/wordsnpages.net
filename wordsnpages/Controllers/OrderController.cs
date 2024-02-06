@@ -73,10 +73,13 @@ namespace wordsnpages.Controllers
         [Authorize(Roles = SD.Role_Admin+","+SD.Role_Employee)]
         public IActionResult StartProcessing()
         {
+            // Retrieve order header from the database
             var orderHeaderFromDb = _unitOfWork.OrderHeader.Get(u => u.Id == OrderVM.OrderHeader.Id);
 
+            // Update order status to "In Process"
             orderHeaderFromDb.OrderStatus = SD.StatusInProcess;
 
+            // Update the order header in the database
             _unitOfWork.OrderHeader.Update(orderHeaderFromDb);
             _unitOfWork.Save();
 
@@ -94,10 +97,14 @@ namespace wordsnpages.Controllers
             orderHeader.Carrier = OrderVM.OrderHeader.Carrier;
             orderHeader.OrderStatus = SD.StatusShipped;
             orderHeader.ShippingDate = DateTime.Now;
+
+            // If the payment was delayed, set the payment due date
             if (orderHeader.PaymentStatus==SD.PaymentStatusDelayedPayment)
             {
                 orderHeader.PaymentDueDate=DateOnly.FromDateTime(DateTime.Now.AddDays(30));
             }
+
+            // Update the order header in the database
             _unitOfWork.OrderHeader.Update(orderHeader);
             _unitOfWork.Save();
 
@@ -114,6 +121,7 @@ namespace wordsnpages.Controllers
         {
             var orderHeader = _unitOfWork.OrderHeader.Get(u => u.Id == OrderVM.OrderHeader.Id);
 
+            // If the order was paid, process a refund using Stripe
             if (orderHeader.PaymentStatus == SD.PaymentStatusApproved)
             {
                 try
@@ -134,10 +142,12 @@ namespace wordsnpages.Controllers
                     return RedirectToAction(nameof(Details), new { orderId = OrderVM.OrderHeader.Id });
                 }
 
+                // Update order status and payment status
                 _unitOfWork.OrderHeader.UpdateStatus(orderHeader.Id, SD.StatusCancelled, SD.StatusRefunded);
             }
             else
             {
+                // Update order status
                 _unitOfWork.OrderHeader.UpdateStatus(orderHeader.Id, SD.StatusCancelled, SD.StatusCancelled);
             }
 
@@ -150,13 +160,13 @@ namespace wordsnpages.Controllers
         [HttpPost]
         public IActionResult Details_PAY_NOW()
         {
-
+            // Retrieve order header and details
             OrderVM.OrderHeader = _unitOfWork.OrderHeader
                 .Get(u => u.Id == OrderVM.OrderHeader.Id, includeProperties: "ApplicationUser");
             OrderVM.OrderDetail = _unitOfWork.OrderDetail
                 .GetAll(u => u.OrderHeaderId == OrderVM.OrderHeader.Id, includeProperties: "Product");
 
-            // Stripe Logic
+            // Create a new Stripe session for payment
             var domain = Request.Scheme+ "://"+Request.Host.Value +"/";
             var options = new SessionCreateOptions
             {
@@ -165,6 +175,8 @@ namespace wordsnpages.Controllers
                 LineItems = new List<SessionLineItemOptions>(),
                 Mode = "payment",
             };
+
+            // Add line items to the Stripe session
             foreach (var item in OrderVM.OrderDetail)
             {
                 var sessionLineItem = new SessionLineItemOptions
@@ -184,11 +196,15 @@ namespace wordsnpages.Controllers
                 options.LineItems.Add(sessionLineItem);
             }
 
+            // Create the Stripe session
             var service = new SessionService();
             Session session = service.Create(options);
+
+            // Update the order header with Stripe payment details
             _unitOfWork.OrderHeader.UpdateStripePaymentID(OrderVM.OrderHeader.Id, session.Id, session.PaymentIntentId);
             _unitOfWork.Save();
 
+            // Redirect to the Stripe payment page
             Response.Headers.Add("location", session.Url);
             return new StatusCodeResult(303);
         
@@ -200,8 +216,7 @@ namespace wordsnpages.Controllers
             OrderHeader orderHeader = _unitOfWork.OrderHeader.Get(u => u.Id==orderHeaderId);
             if (orderHeader.PaymentStatus==SD.PaymentStatusDelayedPayment)
             {
-                //order by company, retrieve stripe session
-
+                // Order by company, retrieve stripe session
                 var service = new SessionService(); //built in class in stripe
                 Session session = service.Get(orderHeader.SessionId);
 

@@ -17,7 +17,6 @@ function loadDataTable() {
             {
                 "data": 'id',
                 "render": function (data) {
-                    // Corrected HTML structure and class name
                     return '<div class="w-75 btn-group" role="group"> <a href="/product/upsert?id=' + data + '" class="btn btn-primary mx-2"> <i class="bi bi-pencil-square"></i>Edit</a> <a onclick="Delete(\'/product/delete?id=' + data + '\')" class="btn btn-danger mx-2"><i class="bi bi-trash-fill"></i>Delete</a></div>';
                 },
                 "width": "15%"

@@ -24,7 +24,7 @@ namespace wordsnpages.Controllers
             // Retrieve all categories
             List<Product> objProductList = _unitOfWork.Product.GetAll(includeProperties: "Category").ToList();
 
-            // Pass the list to t he View method
+            // Pass the list to the View method
             return View(objProductList);
         }
 

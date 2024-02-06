@@ -57,7 +57,10 @@ namespace wordsnpages.DbInitializer
                     City="City"
                 }, "Admin123*").GetAwaiter().GetResult();
 
+                // Retrieve the admin user
                 ApplicationUser user = _applicationDbContext.ApplicationUsers.FirstOrDefault(u => u.Email == "admin@gmail.com");
+
+                // Assign the Admin role to the admin user
                 _userManager.AddToRoleAsync(user, SD.Role_Admin).GetAwaiter().GetResult();
 
             }

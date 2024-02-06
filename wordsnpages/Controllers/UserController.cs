@@ -52,7 +52,7 @@ namespace wordsnpages.Controllers
                     Value=i.Id.ToString()
                 }),
             };
-            //will retrieve the role of the userId
+            //will retrieve the current role of the userId
             RoleVM.ApplicationUser.Role = _userManager.GetRolesAsync(_unitOfWork.ApplicationUser.Get(u=>u.Id==userId))
                 .GetAwaiter().GetResult().FirstOrDefault();
             return View(RoleVM);
@@ -66,7 +66,7 @@ namespace wordsnpages.Controllers
 
             ApplicationUser applicationUser = _unitOfWork.ApplicationUser.Get(u => u.Id == roleManagementVM.ApplicationUser.Id);
 
-
+            //checks if user was updated
             if (!(roleManagementVM.ApplicationUser.Role == oldRole))
             {
                 //role was updated
